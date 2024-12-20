@@ -24,7 +24,7 @@ generation_config = {
     "temperature": 0.9,
     "top_p":1,
     "top_k":1,
-    "max_output_tokens":10
+    "max_output_tokens":100
 }
 
 safety_settings = [
@@ -53,7 +53,7 @@ safety_settings = [
 chat_model = genai.GenerativeModel(
     'gemini-1.5-pro-latest',
     system_instruction=SI,
-    generation_config=generation_config,
+    # generation_config=generation_config,
     safety_settings=safety_settings
     )
 
