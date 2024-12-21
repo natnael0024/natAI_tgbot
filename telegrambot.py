@@ -134,13 +134,13 @@ def chatt(message):
         "role": "model",
         "parts": [{"text": message.text}]
         })
-      logger.info(f"user({username}): {message.text}")
-      logger.info(f"natAI: {response.text}")
+      logger.info(f"{date.now()} user({username}): {message.text}")
+      logger.info(f"{date.now()} natAI: {response.text}")
       bot.send_message(message.chat.id, response.text)
       bot.delete_message(message_with_dots.chat.id, message_with_dots.message_id)
       
     except Exception as e:
-        logger.error(f"Error in chatt handler: {e}")
+        logger.error(f"Error in chat handler: {e}")
         bot.send_message(message.chat.id, "Sorry, I couldn't process your request.")
 
 # Start polling
