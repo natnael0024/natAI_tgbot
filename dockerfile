@@ -11,14 +11,14 @@ COPY . /app/
 RUN pip install --upgrade pip
 RUN pip install -r reqts.txt
 
-# Step 5: Set environment variables (you could also use an .env file later)
+# Step 5: Set environment variables 
 ENV TELEGRAM_BOT_API_KEY=${TELEGRAM_BOT_API_KEY}
 ENV DATABASE_URL=${DATABASE_URL}
 ENV GEMINI_API_KEY=${GEMINI_API_KEY}
 ENV SI=${SI}
 
-# Step 6: Expose the port the bot will run on (optional, for communication purposes)
-EXPOSE 5000
+# Step 6: Expose the port the bot will run on 
+EXPOSE 8000
 
 # Step 7: Command to run the bot
 CMD ["python", "telegrambot.py"]
