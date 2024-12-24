@@ -149,6 +149,16 @@ def delete_message(chat_id, message_id):
     response = requests.post(url, json=payload)
     return response.json()  # Return the response for further processing
 
+def send_typing_action(chat_id):
+    url = f"{TELEGRAM_API_URL}/sendChatAction"
+    payload = {
+        "chat_id": chat_id,
+        "action": "typing"  # Set the action to typing
+    }
+    response = requests.post(url, json=payload)
+    return response.json()
+
+
 # model
 # def chatt(text):
 #     chat = chat_model.start_chat(history=formatted_history)
@@ -185,6 +195,7 @@ def process_message(chat_id,text,username):
         try:
             chat = chat_model.start_chat(history=formatted_history)
             message_with_dots = send_message(chat_id, 'typing...')
+            send_typing_action(chat_id)
             response = chat.send_message(text)
             chat_history[username].append({
                 "role":"model",
