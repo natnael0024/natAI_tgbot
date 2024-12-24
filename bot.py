@@ -109,7 +109,7 @@ def add_visitor_to_db(username):
             INSERT INTO telegrambot_visitors (username)
             VALUES (%s)
             ON CONFLICT (username) DO NOTHING;
-        """, (username))
+        """, (username,))
 
         conn.commit()
 
@@ -154,7 +154,7 @@ def delete_message(chat_id, message_id):
 
 # Message Processing Logic
 def process_message(chat_id,text,username):
-    add_visitor_to_db(username)
+    # add_visitor_to_db(username)
     chat_history = {}
     if username not in chat_history:
         chat_history[username] = []
