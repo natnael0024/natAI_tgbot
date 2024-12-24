@@ -1,6 +1,10 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 import requests, os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 BOT_TOKEN = os.getenv('TELEGRAM_BOT_API_KEY')
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
@@ -28,10 +32,16 @@ async def set_webhook():
     else:
         print("Failed to set webhook:", response.text)
 
+# @app.on_event("startup")
+# async def set_webhook():
+#     async with httpx.AsyncClient() as client:
+#         await client.post(f"https://api.telegram.org/bot{TOKEN}/setWebhook?url={WEBHOOK_URL}/webhook/")
+
 # Webhook Endpoint
 @app.post("/webhook")
 async def webhook(update: TelegramUpdate):
     try:
+        logger.debug(f"Received update: {update}")
         chat_id = update.message["chat"]["id"]
         text = update.message["text"]
         print(f'user: {text}')
