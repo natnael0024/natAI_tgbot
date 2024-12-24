@@ -2,9 +2,13 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 import requests, os
 
-# Telegram Bot Token from BotFather
-BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+BOT_TOKEN = os.getenv('TELEGRAM_BOT_API_KEY')
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+DATABASE_URL = os.getenv("DATABASE_URL")
+SI = os.getenv('SI')
+MAX_HISTORY_SIZE = 5
+WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
 # FastAPI App
 app = FastAPI()
@@ -17,9 +21,8 @@ class TelegramUpdate(BaseModel):
 # Set Webhook
 @app.on_event("startup")
 async def set_webhook():
-    webhook_url = "https://yourdomain.com/webhook"  # Replace with your domain
     webhook_endpoint = f"{TELEGRAM_API_URL}/setWebhook"
-    response = requests.post(webhook_endpoint, json={"url": webhook_url})
+    response = requests.post(webhook_endpoint, json={"url": WEBHOOK_URL})
     if response.status_code == 200:
         print("Webhook set successfully!")
     else:
