@@ -82,11 +82,11 @@ async def set_webhook():
 @app.post("/webhook")
 async def webhook(update: TelegramUpdate):
     try:
-        logger.debug(f"Received update: {update}")
+        # logger.debug(f"Received update: {update}")
         chat_id = update.message["chat"]["id"]
         text = update.message["text"]
         username = update.message["from"].get("username", "No_username")
-        print(f'user: {text}')
+        logger.info(f"{datetime.now()}: user({username}): {text}")
 
         # Process Message and Send Response
         process_message(chat_id,text,username)
@@ -122,7 +122,6 @@ def add_visitor_to_db(username):
 
 # Function to Send Message to Telegram
 def send_message(chat_id, text, parse_mode='Markdown'):
-    print(text)
     url = f"{TELEGRAM_API_URL}/sendMessage"
     payload = {
         "chat_id": chat_id, 
@@ -175,6 +174,8 @@ def process_message(chat_id,text,username):
         for entry in chat_history[username]
     ]
 
+    print('formatted his:', formatted_history)
+
     if text.lower() == "/start":
         return send_image_with_caption(chat_id, 'https://nataichat.onrender.com/natAi-logo-nobg.png', "Welcome to the NatAI Telegram Bot!" )
     elif text.lower() == "hello" or text.lower() == "hi":
@@ -186,10 +187,9 @@ def process_message(chat_id,text,username):
             response = chat.send_message(text)
             chat_history[username].append({
                 "role":"model",
-                "parts":[{"text": text}]
+                "parts":[{"text": response.text}]
             })
             # logs
-            logger.info(f"{datetime.now()}: user({username}): {text}")
             logger.info(f"{datetime.now()}: model({username}): {response.text}")
             # send model response
             send_message(chat_id,response.text)
