@@ -1,24 +1,31 @@
-# Step 1: Use an official Python runtime as the base image
-FROM python:3.10-slim
+# Use a lightweight base image with Python
+FROM python:3.9-slim-buster
 
-# Step 2: Set the working directory inside the container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy the current directory contents into the container
-COPY . /app/
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-# Step 4: Install the necessary dependencies
-RUN pip install --upgrade pip
-RUN pip install -r reqts.txt
+# Copy only the requirements file first to leverage Docker caching
+COPY ./requirements.txt /app/requirements.txt
 
-# Step 5: Set environment variables 
-ENV TELEGRAM_BOT_API_KEY=${TELEGRAM_BOT_API_KEY}
-ENV DATABASE_URL=${DATABASE_URL}
-ENV GEMINI_API_KEY=${GEMINI_API_KEY}
-ENV SI=${SI}
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Step 6: Expose the port the bot will run on 
+# Copy the rest of your application code
+COPY . /app
+
+# Expose the port your FastAPI app will run on
 EXPOSE 8000
 
-# Step 7: Command to run the bot
-CMD ["python", "telegrambot.py"]
+# Start the Uvicorn server with your app
+CMD ["uvicorn", "fast:app", "--host", "0.0.0.0", "--port", "8000"] 
