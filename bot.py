@@ -134,11 +134,9 @@ def send_message(chat_id, text, parse_mode='MarkdownV2'):
 # Function to send an image with a caption
 def send_image_with_caption(chat_id, image_path, caption=None):
     url = f"{TELEGRAM_API_URL}/sendPhoto"
-    with open(image_path, 'rb') as photo:
-        files = {'photo': photo}
-        payload = {'chat_id': chat_id, 'caption': caption}
-        response = requests.post(url, data=payload, files=files)
-        return response.json()
+    payload = {'chat_id': chat_id, 'photo': image_path, 'caption': caption}
+    response = requests.post(url, data=payload)
+    return response.json()
     
 # Function to delete a message
 def delete_message(chat_id, message_id):
@@ -176,7 +174,7 @@ def process_message(chat_id,text,username):
     if text.lower() == "/start":
         return send_image_with_caption(chat_id, 'https://nataichat.onrender.com/natAi-logo-nobg.png', "Welcome to the NatAI Telegram Bot!" )
     elif text.lower() == "hello" or text.lower() == "hi":
-        return "Hello! How can I help you today?"
+        return send_message(chat_id,"Hello! How can I help you today?")
     else:
         try:
             chat = chat_model.start_chat(history=formatted_history)
