@@ -178,7 +178,7 @@ def process_message(chat_id,text,username):
     if text.lower() == "/start":
         return send_image_with_caption(chat_id, 'https://nataichat.onrender.com/natAi-logo-nobg.png', "Welcome to the NatAI Telegram Bot!" )
     elif text.lower() == "hello" or text.lower() == "hi":
-        return send_message(chat_id,"Hello! How can I help you today?")
+        return send_message(chat_id,"Hello, How can I help you today?")
     else:
         try:
             chat = chat_model.start_chat(history=formatted_history)
