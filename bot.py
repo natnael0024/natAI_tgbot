@@ -167,7 +167,7 @@ chat_history = {}
 
 # Message Processing Logic
 def process_message(chat_id,text,username):
-    # add_visitor_to_db(username)
+    add_visitor_to_db(username)
     if username not in chat_history:
         chat_history[username] = []
     if len(chat_history[username]) > MAX_HISTORY_SIZE:
@@ -185,7 +185,7 @@ def process_message(chat_id,text,username):
         for entry in chat_history[username]
     ]
 
-    print('formatted his:', formatted_history)
+    # print('formatted his:', formatted_history)
 
     if text.lower() == "/start":
         return send_image_with_caption(chat_id, 'https://nataichat.onrender.com/natAi-logo-nobg.png', "Welcome to the NatAI Telegram Bot!" )
