@@ -121,7 +121,7 @@ def add_visitor_to_db(username):
         logger.error(f"Error while adding user {username} to db: {e}")
 
 # Function to Send Message to Telegram
-def send_message(chat_id, text, parse_mode='MarkdownV2'):
+def send_message(chat_id, text, parse_mode='Markdown'):
     print(text)
     url = f"{TELEGRAM_API_URL}/sendMessage"
     payload = {
