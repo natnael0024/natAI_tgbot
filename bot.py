@@ -85,7 +85,7 @@ async def webhook(update: TelegramUpdate):
         logger.debug(f"Received update: {update}")
         chat_id = update.message["chat"]["id"]
         text = update.message["text"]
-        username = update["message"]["from"].get("username", "No_username")
+        username = update.message["from"].get("username", "No_username")
         print(f'user: {text}')
 
         # Process Message and Send Response
