@@ -163,11 +163,11 @@ def send_typing_action(chat_id):
 # def chatt(text):
 #     chat = chat_model.start_chat(history=formatted_history)
 #     message_with_dots =
+chat_history = {}
 
 # Message Processing Logic
 def process_message(chat_id,text,username):
     # add_visitor_to_db(username)
-    chat_history = {}
     if username not in chat_history:
         chat_history[username] = []
     if len(chat_history[username]) > MAX_HISTORY_SIZE:
