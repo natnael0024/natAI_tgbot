@@ -34,9 +34,11 @@ async def webhook(update: TelegramUpdate):
     try:
         chat_id = update.message["chat"]["id"]
         text = update.message["text"]
+        print(f'user: {text}')
 
         # Process Message and Send Response
         response_text = process_message(text)
+        print(f'model:{response_text}')
         send_message(chat_id, response_text)
 
     except Exception as e:
