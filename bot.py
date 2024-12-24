@@ -129,7 +129,11 @@ def send_message(chat_id, text, parse_mode='MarkdownV2'):
         "text": text,
         "parse_mode": parse_mode
         }
-    requests.post(url, json=payload)
+    response = requests.post(url, json=payload)
+    if response.status_code != 200:
+        print(f"Error: {response.status_code} - {response.text}")
+    else:
+        print(f"Message sent successfully: {response.json()}")
 
 # Function to send an image with a caption
 def send_image_with_caption(chat_id, image_path, caption=None):
