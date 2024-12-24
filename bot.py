@@ -133,6 +133,7 @@ def send_message(chat_id, text, parse_mode='Markdown'):
         print(f"Error: {response.status_code} - {response.text}")
     else:
         print(f"Message sent successfully: {response.json()}")
+    return response.json()
 
 # Function to send an image with a caption
 def send_image_with_caption(chat_id, image_path, caption=None):
