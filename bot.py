@@ -6,7 +6,6 @@ from datetime import datetime
 import psycopg2
 import google.generativeai as genai
 
-
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
@@ -67,7 +66,6 @@ chat_model = genai.GenerativeModel(
     safety_settings=safety_settings
     )
 
-
 # Set Webhook
 @app.on_event("startup")
 async def set_webhook():
@@ -86,7 +84,7 @@ async def webhook(update: TelegramUpdate):
         chat_id = update.message["chat"]["id"]
         text = update.message["text"]
         username = update.message["from"].get("username", "No_username")
-        logger.info(f"{datetime.now()}: user({username}): {text}")
+        logger.info(f"{datetime.now()}: 👤 user({username}): {text}")
 
         # Process Message and Send Response
         process_message(chat_id,text,username)
@@ -191,6 +189,12 @@ def process_message(chat_id,text,username):
         return send_image_with_caption(chat_id, 'https://nataichat.onrender.com/natAi-logo-nobg.png', "Welcome to the NatAI Telegram Bot!" )
     elif text.lower() == "hello" or text.lower() == "hi":
         return send_message(chat_id,"Hello, How can I help you today?")
+    elif text.lower() == "/donate":
+        return send_message(chat_id,
+        "Thank you for considering a donation! Here are the ways you can support me:\n"
+        "1. Telebirr: `0941559518`\n"
+        "Your support helps me continue my work!"
+        )
     else:
         try:
             chat = chat_model.start_chat(history=formatted_history)
@@ -202,14 +206,10 @@ def process_message(chat_id,text,username):
                 "parts":[{"text": response.text}]
             })
             # logs
-            logger.info(f"{datetime.now()}: model({username}): {response.text}")
+            logger.info(f"{datetime.now()}: 🤖 model: {response.text}")
             # send model response
             send_message(chat_id,response.text)
             delete_message(chat_id, message_with_dots['result']['message_id'])
         except Exception as e:
             logger.error(f"Error in chat handler: {e}")
             send_message(chat_id, "Sorry, I couldn't process your request.")
-
-
-
-        
