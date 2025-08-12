@@ -11,8 +11,13 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+        gcc \
+        build-essential \
+        libpq-dev \
+        curl \
+        git \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy only the requirements file first to leverage Docker caching
 COPY ./requirements.txt /app/requirements.txt
