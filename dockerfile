@@ -1,5 +1,7 @@
 # Use a lightweight base image with Python
-FROM python:3.9-slim-buster
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
