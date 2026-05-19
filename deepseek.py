@@ -16,9 +16,10 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 SI = os.getenv('SI')
 MAX_HISTORY_SIZE = 5
 WEBHOOK_URL = os.getenv('WEBHOOK_URL')
+OPENROUTER_URL = os.getenv('OPENROUTER_URL')
 
 client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
+  base_url=OPENROUTER_URL,
   api_key=DEEPSEEK_API_KEY,
 )
 # FastAPI App
