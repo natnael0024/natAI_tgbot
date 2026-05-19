@@ -156,7 +156,7 @@ def process_message(chat_id,text,username):
             # DeepSeek request
             try:
                 completion = client.chat.completions.create(
-                    model="deepseek/deepseek-r1:free",
+                    model="deepseek/deepseek-v4-flash:free",
                     messages=chat_history[username],  
                     stream=False 
                 )
